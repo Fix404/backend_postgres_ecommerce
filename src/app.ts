@@ -2,17 +2,17 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 
-const appEcommerce = express();
+const app = express();
 
-appEcommerce.use(express.json())
+app.use(express.json())
 
 // ---------------------------------- Rutas ------------------------------------------- //
 
 // --- Autenticación de Usuario --- //
 // Gestión de usuarios
-appEcommerce.use('/usuarios')
+app.use('/usuarios')
 
 // --- Productos --- //
 // appEcommerce.use('productos')
 
-export default appEcommerce;
+export default app;
