@@ -14,7 +14,26 @@ datasource db {
 }
 
 model Categoria {
-  id       String @id @default(uuid())
+  id       Int @id @default(autoincrement())
   nombre   String
 }
 
+model Color {
+  id       Int @id @default(autoincrement())
+  color    String
+}
+
+model Descuento {
+  id            Int @id @default(autoincrement())
+  fechaInicio   String
+  fechaFin      String
+  porcentaje    Float
+}
+
+
+model Imagen {
+  id                Int @id @default(autoincrement())
+  url               String
+  altDescripcion    String
+  
+}
