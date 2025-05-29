@@ -5,6 +5,8 @@ import categoriaRoutes from './routes/categoriaRoutes'
 import colorRoutes from './routes/colorRoutes'
 import descuentoRoutes from './routes/descuentoRoutes'
 import imagenRoutes from './routes/imagenRoutes'
+import localidadRoutes from './routes/localidadRoutes'
+import direccionRoutes from './routes/direccionRoutes'
 
 const app = express();
 
@@ -19,6 +21,8 @@ app.use('/categorias', categoriaRoutes)
 app.use('/color', colorRoutes)
 app.use('/descuentos',descuentoRoutes)
 app.use('/imagenes',imagenRoutes)
+app.use('/localidad',localidadRoutes)
+app.use('/direcciones',direccionRoutes)
 
 
 
