@@ -37,3 +37,20 @@ model Imagen {
   altDescripcion    String
   
 }
+
+
+model Localidad {
+  id                Int @id @default(autoincrement())
+  localidad         String
+  codigoPostal      Int
+  direcciones  Direccion[]
+}
+
+
+model Direccion {
+  id             Int @id @default(autoincrement())
+  calle          String
+  altura         Int
+  localidadId    Int
+  localidad      Localidad @relation(fields: [localidadId], references: [id])
+}
