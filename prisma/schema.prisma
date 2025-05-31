@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,44 +7,198 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum TipoProducto {
+  ROPA
+  CALZADO
+  ACCESORIO
+  OTRO
+}
+
+enum SexoProducto {
+  MASCULINO
+  FEMENINO
+  UNISEX
+}
+
+enum MovimientoOrden {
+  COMPRA
+  VENTA
+  DEVOLUCION
+  AJUSTE
+}
+
+enum RolUsuario {
+  ADMIN
+  VENDEDOR
+  CLIENTE
+}
+
 model Categoria {
   id       Int @id @default(autoincrement())
   nombre   String
+
+  // Relaciones
+  productos Producto[]
+
+  @@map("categoria")
 }
 
 model Color {
-  id       Int @id @default(autoincrement())
-  color    String
+  id     Int @id @default(autoincrement())
+  color  String
+
+  // Relaciones
+  detalles Detalle[] @relation("ColorDetalle")
+
+  @@map("color")
 }
 
 model Descuento {
-  id            Int @id @default(autoincrement())
-  fechaInicio   String
-  fechaFin      String
-  porcentaje    Float
-}
+  id           Int     @id @default(autoincrement())
+  fechaInicio  DateTime
+  fechaCierre  DateTime
+  porcentaje   Float
 
+  // Relaciones
+  productos Producto[]
+
+  @@map("descuento")
+}
 
 model Imagen {
-  id                Int @id @default(autoincrement())
-  url               String
-  altDescripcion    String
-  
-}
+  id          Int    @id @default(autoincrement())
+  url         String
+  descripcion String
 
+  // Relaciones
+  productos Producto[]
+
+  @@map("imagen")
+}
 
 model Localidad {
-  id                Int @id @default(autoincrement())
-  localidad         String
-  codigoPostal      Int
-  direcciones  Direccion[]
+  id           Int        @id @default(autoincrement())
+  localidad    String
+  codigoPostal Int
+
+  // Relaciones
+  direcciones Direccion[]
 }
 
-
 model Direccion {
-  id             Int @id @default(autoincrement())
-  calle          String
-  altura         Int
-  localidadId    Int
-  localidad      Localidad @relation(fields: [localidadId], references: [id])
+  id          Int     @id @default(autoincrement())
+  calle       String
+  altura      Int
+  idLocalidad Int
+
+  // Relaciones
+  localidad Localidad @relation(fields: [idLocalidad], references: [id])
+  usuarios  Usuario[] @relation("DireccionUsuario")
+
+  @@map("direccion")
+}
+
+model OrdenCompra {
+  id                 Int               @id @default(autoincrement())
+  fecha              DateTime          @default(now())
+  precioTotal        Float
+  movimiento         MovimientoOrden
+  idUsuario          Int
+  idProductoCantidad Int
+
+  // Relaciones
+  usuario          Usuario          @relation("UsuarioOrden", fields: [idUsuario], references: [id])
+  productoCantidad ProductoCantidad @relation("ProductoOrden", fields: [idProductoCantidad], references: [id])
+
+  @@map("orden_compra")
+}
+
+model Precio {
+  id           Int     @id @default(autoincrement())
+  precioCompra Float
+  precioVenta  Float
+
+  // Relaciones
+  detalles Detalle[] @relation("PrecioDetalle")
+
+  @@map("precio")
+}
+
+model ProductoCantidad {
+  id        Int     @id @default(autoincrement())
+  cantidad  Int
+  idDetalle Int
+  idProducto Int
+
+  // Relaciones
+  detalle      Detalle       @relation("DetalleProductoCantidad", fields: [idDetalle], references: [id])
+  ordenCompras OrdenCompra[] @relation("ProductoOrden")
+  producto   Producto @relation("ProductoToCantidad", fields: [idProducto], references: [id])
+
+  @@map("producto_cantidad")
+}
+
+model Producto {
+  id             Int              @id @default(autoincrement())
+  nombre         String
+  tipo           TipoProducto
+  sexo           SexoProducto
+  descripcion    String
+  idCategoria    Int
+  idImagen       Int?
+  idDescuento    Int?
+
+  // Relaciones
+  categoria        Categoria         @relation(fields: [idCategoria], references: [id])
+  imagen           Imagen?           @relation(fields: [idImagen], references: [id])
+  descuento        Descuento?        @relation(fields: [idDescuento], references: [id])
+  detalles         Detalle[]         @relation("ProductoDetalle")
+  productoCantidad ProductoCantidad[] @relation("ProductoToCantidad")
+
+  @@map("producto")
+}
+
+model Talle {
+  id     Int    @id @default(autoincrement())
+  talle  String
+
+  // Relaciones
+  detalles Detalle[] @relation("TalleDetalle")
+
+  @@map("talle")
+}
+
+model Usuario {
+  id             Int     @id @default(autoincrement())
+  nombre         String
+  contrasenia    String
+  email          String  @unique
+  dni            Int
+  rol            RolUsuario
+  idDireccion    Int?
+
+  // Relaciones
+  direccion    Direccion?    @relation("DireccionUsuario", fields: [idDireccion], references: [id])
+  ordenCompras OrdenCompra[] @relation("UsuarioOrden")
+
+  @@map("usuario")
+}
+
+model Detalle {
+  id         Int  @id @default(autoincrement())
+  stock      Int
+  estado     Boolean
+  idProducto Int
+  idTalle    Int
+  idColor    Int
+  idPrecio   Int
+
+  // Relaciones
+  producto         Producto           @relation("ProductoDetalle", fields: [idProducto], references: [id])
+  talle            Talle              @relation("TalleDetalle", fields: [idTalle], references: [id])
+  color            Color              @relation("ColorDetalle", fields: [idColor], references: [id])
+  precio           Precio             @relation("PrecioDetalle", fields: [idPrecio], references: [id])
+  productoCantidad ProductoCantidad[] @relation("DetalleProductoCantidad")
+
+  @@map("detalle")
 }

@@ -5,15 +5,15 @@ import prisma from '../models/modelo'
 
 export const createDireccion = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { calle, altura, localidadId } = req.body;
+        const { calle, altura, idLocalidad } = req.body;
 
-        if (!calle || !altura || !localidadId) {
+        if (!calle || !altura || !idLocalidad) {
             res.status(400).json({ error: 'Todos los campos son obligatorios' });
             return;
         }
 
         const localidadExistente = await prisma.localidad.findUnique({
-            where: { id: localidadId },
+            where: { id: idLocalidad },
         });
 
         if (!localidadExistente) {
@@ -26,7 +26,7 @@ export const createDireccion = async (req: Request, res: Response): Promise<void
                 calle,
                 altura,
                 localidad: {
-                    connect: { id: localidadId },
+                    connect: { id: idLocalidad },
                 },
             },
             include: {
@@ -104,7 +104,7 @@ export const deleteDireccionById = async (req: Request, res: Response): Promise<
 
 export const updateDireccion = async (req: Request, res: Response): Promise<void> => {
     const id = parseInt(req.params.id);
-    const { calle, altura, localidadId } = req.body;
+    const { calle, altura, idLocalidad } = req.body;
 
     try {
         const updatedDireccion = await prisma.direccion.update({
@@ -112,7 +112,7 @@ export const updateDireccion = async (req: Request, res: Response): Promise<void
             data: {
                 calle,
                 altura,
-                localidadId
+                idLocalidad
             },
         });
 

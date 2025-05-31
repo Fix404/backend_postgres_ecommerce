@@ -5,9 +5,9 @@ import prisma from '../models/modelo'
 
 export const createDescuento = async (req: Request, res: Response): Promise<void> => {
     try {
-        const {fechaInicio, fechaFin, porcentaje} = req.body;
+        const {fechaInicio, fechaCierre, porcentaje} = req.body;
 
-        if (!fechaInicio || !fechaFin || !porcentaje) {
+        if (!fechaInicio || !fechaCierre || !porcentaje) {
             res.status(400).json({ error: 'Todos los campos son obligatorios' });
             return;
         }
@@ -15,7 +15,7 @@ export const createDescuento = async (req: Request, res: Response): Promise<void
         const nuevoDescuento = await prisma.descuento.create({
             data: {
                fechaInicio, 
-               fechaFin, 
+               fechaCierre, 
                porcentaje
             },
         });
@@ -86,14 +86,14 @@ export const deleteDescuentoById = async (req: Request, res: Response): Promise<
 
 export const updateDescuento = async (req: Request, res: Response): Promise<void> => {
   const id = parseInt(req.params.id);
-  const { fechaInicio, fechaFin, porcentaje } = req.body;
+  const { fechaInicio, fechaCierre, porcentaje } = req.body;
 
   try {
     const updatedDescuento = await prisma.descuento.update({
       where: { id },
       data: {
         fechaInicio, 
-        fechaFin, 
+        fechaCierre, 
         porcentaje
       },
     });

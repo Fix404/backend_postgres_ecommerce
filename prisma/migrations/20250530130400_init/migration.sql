@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "usuario" ALTER COLUMN "dni" SET DATA TYPE BIGINT;

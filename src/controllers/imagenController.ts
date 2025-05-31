@@ -4,9 +4,9 @@ import prisma from '../models/modelo'
 
 export const createImagen = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { url, altDescripcion } = req.body;
+        const { url, descripcion } = req.body;
 
-        if (!url || !altDescripcion) {
+        if (!url || !descripcion) {
             res.status(400).json({ error: 'La url es obligatoria' });
             return;
         }
@@ -14,7 +14,7 @@ export const createImagen = async (req: Request, res: Response): Promise<void> =
         const nuevaImagen = await prisma.imagen.create({
             data: {
                 url,
-                altDescripcion
+                descripcion
             },
         });
 
@@ -84,14 +84,14 @@ export const deleteImagenById = async (req: Request, res: Response): Promise<voi
 
 export const updateImagen = async (req: Request, res: Response): Promise<void> => {
     const id = parseInt(req.params.id);
-    const { url, altDescripcion } = req.body;
+    const { url, descripcion } = req.body;
 
     try {
         const updatedImagen = await prisma.imagen.update({
             where: { id },
             data: {
                 url,
-                altDescripcion
+                descripcion
             },
         });
 
