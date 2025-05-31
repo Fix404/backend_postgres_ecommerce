@@ -4,9 +4,9 @@ import prisma from '../models/modelo'
 
 export const createProductoCantidad = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { cantidad, idDetalle, idProducto } = req.body;
+        const { cantidad, idDetalle } = req.body;
 
-        if (!cantidad || !idDetalle || !idProducto) {
+        if (!cantidad || !idDetalle) {
             res.status(400).json({ error: 'La url es obligatoria' });
             return;
         }
@@ -14,8 +14,9 @@ export const createProductoCantidad = async (req: Request, res: Response): Promi
         const nuevoproductoCantidad = await prisma.productoCantidad.create({
             data: {
                 cantidad,
-                idDetalle,
-                idProducto
+                detalle: {
+                    connect: { id: idDetalle }
+                }
             },
         });
 
@@ -85,15 +86,14 @@ export const deleteProductoCantidadById = async (req: Request, res: Response): P
 
 export const updateProductoCantidad = async (req: Request, res: Response): Promise<void> => {
     const id = parseInt(req.params.id);
-    const { cantidad, idDetalle, idProducto } = req.body;
+    const { cantidad, idDetalle } = req.body;
 
     try {
         const updatedcantidadProducto = await prisma.productoCantidad.update({
             where: { id },
             data: {
                 cantidad,
-                idDetalle,
-                idProducto
+                idDetalle
             },
         });
 

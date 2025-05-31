@@ -55,8 +55,8 @@ model Color {
 
 model Descuento {
   id           Int     @id @default(autoincrement())
-  fechaInicio  DateTime
-  fechaCierre  DateTime
+  fechaInicio  String
+  fechaCierre  String
   porcentaje   Float
 
   // Relaciones
@@ -100,7 +100,7 @@ model Direccion {
 
 model OrdenCompra {
   id                 Int               @id @default(autoincrement())
-  fecha              DateTime          @default(now())
+  fecha              String         
   precioTotal        Float
   movimiento         MovimientoOrden
   idUsuario          Int
@@ -128,12 +128,10 @@ model ProductoCantidad {
   id        Int     @id @default(autoincrement())
   cantidad  Int
   idDetalle Int
-  idProducto Int
 
   // Relaciones
   detalle      Detalle       @relation("DetalleProductoCantidad", fields: [idDetalle], references: [id])
   ordenCompras OrdenCompra[] @relation("ProductoOrden")
-  producto   Producto @relation("ProductoToCantidad", fields: [idProducto], references: [id])
 
   @@map("producto_cantidad")
 }
@@ -153,7 +151,6 @@ model Producto {
   imagen           Imagen?           @relation(fields: [idImagen], references: [id])
   descuento        Descuento?        @relation(fields: [idDescuento], references: [id])
   detalles         Detalle[]         @relation("ProductoDetalle")
-  productoCantidad ProductoCantidad[] @relation("ProductoToCantidad")
 
   @@map("producto")
 }
