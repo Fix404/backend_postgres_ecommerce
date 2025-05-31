@@ -25,9 +25,7 @@ export const createDireccion = async (req: Request, res: Response): Promise<void
             data: {
                 calle,
                 altura,
-                localidad: {
-                    connect: { id: idLocalidad },
-                },
+                idLocalidad,
             },
             include: {
                 localidad: true,

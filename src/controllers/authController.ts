@@ -32,23 +32,25 @@ export const login = async(req:Request, res:Response): Promise<void> =>{
 
     try{
         if(!email || !contrasenia){
-            res.status(400).jsonp({error:"Contraseña y mail son obligatorios"})
+            res.status(400).json({error:"Contraseña y mail son obligatorios"})
         }
 
         const usuario=await prisma.usuario.findUnique({where:{email}})
 
         if (!usuario) {
-            res.status(400).json({ error: "Datos no válidos" });
+            res.status(400).json({ error: "Usuario no encontrado" });
             return;
         }
 
-        const isPasswordValid=checkPassword(usuario?.contrasenia!,contrasenia)
+        const isPasswordValid=checkPassword(contrasenia,usuario.contrasenia)
+
         if(!isPasswordValid){
             res.status(400).json({error:"Datos no válidos"})
             return;
         }
 
         const token = generateToken(usuario);
+        
         res.status(200).json({
             message: "Login exitoso",
             token,

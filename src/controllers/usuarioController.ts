@@ -45,7 +45,7 @@ export const getUsuarioById = async (req: Request, res: Response): Promise<void>
 export const deleteUsuarioById = async (req: Request, res: Response): Promise<void> => {
     const id = parseInt(req.params.id);
     try {
-        await prisma.usuario.delete(
+        const usuario = await prisma.usuario.delete(
             {
                 where: {
                     id
@@ -53,7 +53,7 @@ export const deleteUsuarioById = async (req: Request, res: Response): Promise<vo
             }
         )
 
-        res.status(200).json(`el usuario fue eliminado`)
+        res.status(200).json(`El usuario ${usuario.nombre} fue eliminado`)
     } catch (error) {
         console.log(error)
         res.status(500).json('No se pudo eliminar el usuario')
@@ -72,7 +72,7 @@ export const updateUsuario = async (req: Request, res: Response): Promise<void> 
             },
         });
 
-        res.status(200).json({ message: "el usuario fue actualizado", usuario: updatedusuario });
+        res.status(200).json({ message: "El usuario fue actualizado", usuario: updatedusuario });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error al actualizar el usuario" });
