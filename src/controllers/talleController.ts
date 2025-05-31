@@ -65,7 +65,7 @@ export const getTalleById = async (req: Request, res: Response): Promise<void> =
 export const deleteTalleById = async (req: Request, res: Response): Promise<void> => {
     const id = parseInt(req.params.id);
     try {
-        await prisma.talle.delete(
+        const talle = await prisma.talle.delete(
             {
                 where: {
                     id
@@ -73,7 +73,7 @@ export const deleteTalleById = async (req: Request, res: Response): Promise<void
             }
         )
 
-        res.status(200).json(`el talle fue eliminado`)
+        res.status(200).json(`El talle ${talle.talle} fue eliminado`)
     } catch (error) {
         console.log(error)
         res.status(500).json('No se pudo eliminar el talle')
@@ -92,7 +92,7 @@ export const updateTalle = async (req: Request, res: Response): Promise<void> =>
             },
         });
 
-        res.status(200).json({ message: "el talle fue actualizado", talle: updatedtalle });
+        res.status(200).json({ message: "El talle fue actualizado", talle: updatedtalle });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error al actualizar el talle" });

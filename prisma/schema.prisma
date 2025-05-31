@@ -33,6 +33,11 @@ enum RolUsuario {
   CLIENTE
 }
 
+enum Estado {
+  DISPONIBLE
+  NO_DISPONIBLE
+}
+
 model Categoria {
   id       Int @id @default(autoincrement())
   nombre   String
@@ -184,7 +189,7 @@ model Usuario {
 model Detalle {
   id         Int  @id @default(autoincrement())
   stock      Int
-  estado     Boolean
+  estado     Estado
   idProducto Int
   idTalle    Int
   idColor    Int

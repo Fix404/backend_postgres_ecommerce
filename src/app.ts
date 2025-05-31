@@ -1,9 +1,11 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
+import { authenticateToken } from './middlewares/authenticateToken'
 import categoriaRoutes from './routes/categoriaRoutes'
 import colorRoutes from './routes/colorRoutes'
 import descuentoRoutes from './routes/descuentoRoutes'
+import detalleRoutes from './routes/detalleRoutes'
 import imagenRoutes from './routes/imagenRoutes'
 import localidadRoutes from './routes/localidadRoutes'
 import direccionRoutes from './routes/direccionRoutes'
@@ -21,19 +23,24 @@ app.use(express.json())
 
 // ---------------------------------- Rutas ------------------------------------------- //
 
-app.use('/categorias', categoriaRoutes)
-app.use('/color', colorRoutes)
-app.use('/descuentos',descuentoRoutes)
-app.use('/imagenes',imagenRoutes)
-app.use('/localidad',localidadRoutes)
-app.use('/direcciones',direccionRoutes)
-app.use('/ordenesCompra', ordenCompraRoutes)
-app.use('/precios', precioRoutes)
-app.use('/cantidadesProducto', cantidadProductoRoutes)
-app.use('/productos', productoRoutes)
-app.use('/talles', talleRoutes)
-app.use('/usuarios', usuarioRoutes)
-
+// Rutas publicas
 app.use("/verify", authRoutes)
+
+// Rutas protegidas
+app.use('/categorias', authenticateToken, categoriaRoutes)
+app.use('/color', authenticateToken, colorRoutes)
+app.use('/descuentos', authenticateToken, descuentoRoutes)
+app.use('/detalle', authenticateToken, detalleRoutes)
+app.use('/imagenes', authenticateToken, imagenRoutes)
+app.use('/localidad', authenticateToken, localidadRoutes)
+app.use('/direcciones', authenticateToken, direccionRoutes)
+app.use('/ordenesCompra', authenticateToken, ordenCompraRoutes)
+app.use('/precios', authenticateToken, precioRoutes)
+app.use('/cantidadesProducto', authenticateToken, cantidadProductoRoutes)
+app.use('/productos', authenticateToken, productoRoutes)
+app.use('/talles', authenticateToken, talleRoutes)
+app.use('/usuarios', authenticateToken, usuarioRoutes)
+
+
 
 export default app;

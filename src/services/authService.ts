@@ -1,6 +1,6 @@
 
 import jwt from 'jsonwebtoken';
-import { Usuario } from '../types/usuario.interface';
+import { Usuario } from '../interfaces/usuarioInterface';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default-secret';
 
