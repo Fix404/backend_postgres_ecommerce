@@ -1,7 +1,6 @@
-
 import { Request, Response } from "express"
 import prisma from '../models/modelo'
-
+import { Producto } from "../interfaces/productoInterface";
 
 export const createProducto = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -46,8 +45,12 @@ export const createProducto = async (req: Request, res: Response): Promise<void>
         tipo,
         sexo,
         descripcion,
-        idCategoria,
-        idImagen,
+        categoria: {
+          connect: {id: idCategoria}
+        },
+        imagen: {
+          connect: {id: idImagen}
+        },
         ...(idDescuento && { idDescuento }),
       },
       include: {
@@ -135,7 +138,22 @@ export const updateProducto = async (req: Request, res: Response): Promise<void>
         const updatedproducto = await prisma.producto.update({
             where: { id },
             data: {
-                nombre, tipo, sexo, descripcion, idCategoria, idImagen, idDescuento
+                nombre,
+        tipo,
+        sexo,
+        descripcion,
+        categoria: {
+          connect: {id: idCategoria}
+        },
+        imagen: {
+          connect: {id: idImagen}
+        },
+        ...(idDescuento && { idDescuento }),
+      },
+      include: {
+        categoria: true,
+        imagen: true,
+        descuento: true,
             },
         });
 

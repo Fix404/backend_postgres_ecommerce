@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import prisma from '../models/modelo'
-
+import { Localidad } from "../interfaces/localidadInterface";
 
 
 export const createLocalidad = async (req: Request, res: Response): Promise<void> => {

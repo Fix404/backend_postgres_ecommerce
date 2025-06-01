@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import prisma from '../models/modelo'
+import { Categoria } from "../interfaces/categoriaInterface";
 
 
 

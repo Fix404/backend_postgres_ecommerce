@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import prisma from '../models/modelo'
-
+import { OrdenCompra } from "../interfaces/ordenCompraInterface";
 
 export const createOrdenCompra = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -16,8 +16,12 @@ export const createOrdenCompra = async (req: Request, res: Response): Promise<vo
                 precioTotal,
                 movimiento,
                 fecha,
-                idUsuario,
-                idProductoCantidad
+                usuario:{
+                    connect: {id: idUsuario}
+                },
+                productoCantidad: {
+                    connect: {id: idProductoCantidad}
+                }
             },
         });
 

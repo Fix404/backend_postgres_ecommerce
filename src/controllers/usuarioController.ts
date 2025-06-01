@@ -1,8 +1,6 @@
-
-
 import { Request, Response } from "express"
 import prisma from '../models/modelo'
-
+import { Usuario } from "../interfaces/usuarioInterface"
 
 export const getAllUsuarios = async (req: Request, res: Response): Promise<void> => {
 
@@ -62,13 +60,16 @@ export const deleteUsuarioById = async (req: Request, res: Response): Promise<vo
 
 export const updateUsuario = async (req: Request, res: Response): Promise<void> => {
     const id = parseInt(req.params.id);
-    const { nombre, email, dni, rol, direccion } = req.body;
+    const { nombre, email, dni, rol, idDireccion } = req.body;
 
     try {
         const updatedusuario = await prisma.usuario.update({
             where: { id },
             data: {
-                nombre, email, dni, rol, direccion
+                nombre, email, dni, rol, 
+                direccion:{
+                    connect:{ id:idDireccion}
+                }
             },
         });
 

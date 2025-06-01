@@ -1,4 +1,4 @@
-interface ProductoCantidad {
+export interface ProductoCantidad {
   id:number,
   cantidad:number,
   idDetalle:number

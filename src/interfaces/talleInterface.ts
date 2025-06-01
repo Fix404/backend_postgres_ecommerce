@@ -1,4 +1,4 @@
-interface Talle {
+export interface Talle {
   id:number,
   talle:string
 }

@@ -11,7 +11,7 @@ enum SexoProducto {
   UNISEX = "UNISEX",
 }
 
-interface Producto {
+export interface Producto {
   id: number;
   nombre: string;
   tipo: TipoProducto;

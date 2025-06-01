@@ -1,6 +1,6 @@
 type MovimientoOrden = 'COMPRA' | 'VENTA' | 'DEVOLUCION' | 'AJUSTE';
 
-interface OrdenCompra {
+export interface OrdenCompra {
   id: number;
   fecha: Date;
   precioTotal: number;

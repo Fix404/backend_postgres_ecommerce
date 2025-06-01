@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import prisma from '../models/modelo'
-
+import {Descuento} from '../interfaces/descuentoInterface'
 
 
 export const createDescuento = async (req: Request, res: Response): Promise<void> => {

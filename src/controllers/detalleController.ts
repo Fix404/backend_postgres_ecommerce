@@ -1,7 +1,7 @@
 
 import { Request, Response } from "express"
 import prisma from '../models/modelo'
-
+import { Detalle } from "../interfaces/detalleInterface";
 
 export const createDetalle = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -55,10 +55,18 @@ export const createDetalle = async (req: Request, res: Response): Promise<void> 
             data: {
                 stock,
                 estado,
-                idProducto,
-                idTalle,
-                idColor,
-                idPrecio,
+                producto:{
+                    connect: {id: idProducto}
+                },
+                talle: {
+                    connect: {id: idTalle}
+                },
+                color: {
+                    connect: {id: idColor}
+                },
+                precio:{
+                    connect: {id: idPrecio}
+                }
             },
             include: {
                 producto: true,
@@ -150,10 +158,18 @@ export const updateDetalle = async (req: Request, res: Response): Promise<void> 
             data: {
                 stock, 
                 estado, 
-                idProducto, 
-                idTalle, 
-                idColor, 
-                idPrecio
+                producto:{
+                    connect: {id: idProducto}
+                },
+                talle: {
+                    connect: {id: idTalle}
+                },
+                color: {
+                    connect: {id: idColor}
+                },
+                precio:{
+                    connect: {id: idPrecio}
+                }
             },
         });
 

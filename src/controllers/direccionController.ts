@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import prisma from '../models/modelo'
-
+import { Direccion } from "../interfaces/direccionInterface";
 
 
 export const createDireccion = async (req: Request, res: Response): Promise<void> => {

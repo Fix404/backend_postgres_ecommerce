@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import prisma from '../models/modelo'
 import { checkPassword, hashPassword } from "../services/passwordService";
 import { generateToken } from "../services/authService";
+import { Usuario } from "../interfaces/usuarioInterface";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
     const {email, contrasenia, nombre, dni, rol} = req.body;

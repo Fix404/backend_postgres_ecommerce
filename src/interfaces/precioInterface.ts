@@ -1,4 +1,4 @@
-interface Precio {
+export interface Precio {
   id:number,
   precioCompra:number,
   precioVenta:number

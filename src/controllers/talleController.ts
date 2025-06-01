@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import prisma from '../models/modelo'
-
+import { Talle } from "../interfaces/talleInterface";
 
 export const createTalle = async (req: Request, res: Response): Promise<void> => {
     try {
