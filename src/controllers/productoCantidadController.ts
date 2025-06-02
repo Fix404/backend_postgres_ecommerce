@@ -11,6 +11,15 @@ export const createProductoCantidad = async (req: Request, res: Response): Promi
             return;
         }
 
+        const detalleExistente = await prisma.detalle.findUnique({
+            where: { id: idDetalle },
+        });
+
+        if (!detalleExistente) {
+            res.status(404).json({ error: 'El detalle ingresado no existe en la BD' });
+            return;
+        }
+
         const nuevoproductoCantidad = await prisma.productoCantidad.create({
             data: {
                 cantidad,
@@ -97,10 +106,10 @@ export const updateProductoCantidad = async (req: Request, res: Response): Promi
             },
         });
 
-        res.status(200).json({ message: "la  cantidad de Producto fue actualizada", cantidadProducto: updatedcantidadProducto });
+        res.status(200).json({ message: "La cantidad de producto fue actualizada", cantidadProducto: updatedcantidadProducto });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error al actualizar la cantidad de Producto" });
+        res.status(500).json({ message: "Error al actualizar la cantidad de producto" });
     }
 };
 

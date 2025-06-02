@@ -158,18 +158,11 @@ export const updateDetalle = async (req: Request, res: Response): Promise<void> 
             data: {
                 stock, 
                 estado, 
-                producto:{
-                    connect: {id: idProducto}
-                },
-                talle: {
-                    connect: {id: idTalle}
-                },
-                color: {
-                    connect: {id: idColor}
-                },
-                precio:{
-                    connect: {id: idPrecio}
-                }
+                idProducto,
+                idTalle,
+                idColor,
+                idPrecio
+                
             },
         });
 

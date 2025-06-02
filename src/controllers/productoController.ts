@@ -142,12 +142,8 @@ export const updateProducto = async (req: Request, res: Response): Promise<void>
         tipo,
         sexo,
         descripcion,
-        categoria: {
-          connect: {id: idCategoria}
-        },
-        imagen: {
-          connect: {id: idImagen}
-        },
+        idCategoria,
+        idImagen,  
         ...(idDescuento && { idDescuento }),
       },
       include: {

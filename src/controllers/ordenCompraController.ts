@@ -81,7 +81,7 @@ export const deleteOrdenCompraById = async (req: Request, res: Response): Promis
             }
         )
 
-        res.status(200).json(`La ordende Compra fue eliminada`)
+        res.status(200).json(`La orden de compra fue eliminada`)
     } catch (error) {
         console.log(error)
         res.status(500).json('No se pudo eliminar la orden de compra')
